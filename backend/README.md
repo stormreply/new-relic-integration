@@ -2,30 +2,33 @@
 
 This folder has the source code for running the app's backend.
 
+![Backend](assets/asset-1.png)
+
 ---
 
 ## Contents
 
 - [Backend](#backend)
   - [Contents](#contents)
-    - [New Relic APM Integration](#new-relic-apm-integration)
-      - [1. Add Dependencies](#1-add-dependencies)
-      - [2. Unzip the packages](#2-unzip-the-packages)
-      - [3. Setting New Relic configuration](#3-setting-new-relic-configuration)
-      - [4. Adding the Java agent to JVM](#4-adding-the-java-agent-to-jvm)
-    - [Custom Monitoring](#custom-monitoring)
-    - [Available API Endpoints](#available-api-endpoints)
-    - [Running the Code](#running-the-code)
+  - [New Relic APM Integration](#new-relic-apm-integration)
+    - [1. Add Dependencies](#1-add-dependencies)
+    - [2. Unzip the packages](#2-unzip-the-packages)
+    - [3. Setting New Relic configuration](#3-setting-new-relic-configuration)
+    - [4. Adding the Java agent to JVM](#4-adding-the-java-agent-to-jvm)
+  - [Custom Monitoring](#custom-monitoring)
+  - [Available API Endpoints](#available-api-endpoints)
+  - [Running the Code](#running-the-code)
+  - [New Relic Dashboard](#new-relic-dashboard)
   - [Additional resources](#additional-resources)
     - [New Relic - Java monitoring](#new-relic---java-monitoring)
 
 ---
 
-### New Relic APM Integration
+## New Relic APM Integration
 
 Since we are using Maven, we will detail the integration process done for Maven. Gradle integration available [here](https://docs.newrelic.com/docs/apm/agents/java-agent/additional-installation/install-java-agent-using-gradle)
 
-#### 1. Add Dependencies
+### 1. Add Dependencies
 
 1. New Relic Java agent: This agent monitor the whole application. we will start by adding the dependency to `pom-xml`. Replace `JAVA_AGENT_VERSION` with the [latest Java agent version](https://docs.newrelic.com/docs/agents/java-agent/getting-started/java-release-notes).
 
@@ -49,7 +52,7 @@ Since we are using Maven, we will detail the integration process done for Maven.
     </dependency>
 ```
 
-#### 2. Unzip the packages
+### 2. Unzip the packages
 
 Unzip `newrelic-java.zip` by configuring `maven-dependency-plugin` in your `pom.xml` in `build.plugions`:
 
@@ -80,12 +83,12 @@ Unzip `newrelic-java.zip` by configuring `maven-dependency-plugin` in your `pom.
 </plugin>
 ```
 
-#### 3. Setting New Relic configuration
+### 3. Setting New Relic configuration
 
 - Place `newrelic.yml` in the same folder as newrelic.jar in our case in `target/newrelic`, if you want to change it, you can specify otherwise in the JVM arg Dnewrelic.config.file.
 - Configure the `newrelic.yml` file (or JVM system properties) with your `license_key` and `app_name` and your other parameters.
 
-#### 4. Adding the Java agent to JVM
+### 4. Adding the Java agent to JVM
 
 You have to pass `-javaagent:/path/to/newrelic.jar` to the JVM running your application server. In our case we used the `spring-boot-maven-plugin` plugin in `pom.xml` to pass it:
 
@@ -101,7 +104,7 @@ You have to pass `-javaagent:/path/to/newrelic.jar` to the JVM running your appl
 </plugin>
 ```
 
-### Custom Monitoring
+## Custom Monitoring
 
 To monitor specific function inside the API we used the Trace annotation from New Relic API. For example, we created a custom metric named `MetricOne` for the function `asyncGreeting` that sleeps for 2 minutes:
 
@@ -117,7 +120,7 @@ public String asyncGreeting() {
 }
 ```
 
-### Available API Endpoints
+## Available API Endpoints
 
 | Path                   | Type     | Method | API Description                                                 | Custom Metric           |
 | ---------------------- | -------- | ------ | --------------------------------------------------------------- | ----------------------- |
@@ -132,7 +135,7 @@ public String asyncGreeting() {
 | /api/v1/employees/{id} | Endpoint | DELETE | Endpoint that delete an employee.                               | NO                      |
 | └─── delete            | FUNCTION | -      | Function that delete employee from Database and sleeps for 30s. | YES, EmployeeDelete     |
 
-### Running the Code
+## Running the Code
 
 1. Create a database inside your MySQL/MariaDB named `employee_management_system`.
 2. Go to `src/main/resources/application.properties` and edit your database connection parameters:
@@ -156,6 +159,12 @@ mvnw spring-boot:run
 ```
 
 4. Backend available at `localhost:8080`
+
+
+## New Relic Dashboard
+
+![Screenshot 2](assets/asset-2.png)
+![Screenshot 3](assets/asset-3.png)
 
 ## Additional resources
 
