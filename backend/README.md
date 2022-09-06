@@ -11,8 +11,8 @@ This folder has the source code for running the app's backend.
     - [New Relic APM Integration](#new-relic-apm-integration)
       - [1. Add Dependencies](#1-add-dependencies)
       - [2. Unzip the packages](#2-unzip-the-packages)
-      - [2. Setting New Relic configuration](#2-setting-new-relic-configuration)
-      - [3. Adding the Java agent to JVM](#3-adding-the-java-agent-to-jvm)
+      - [3. Setting New Relic configuration](#3-setting-new-relic-configuration)
+      - [4. Adding the Java agent to JVM](#4-adding-the-java-agent-to-jvm)
     - [Custom Monitoring](#custom-monitoring)
     - [Available API Endpoints](#available-api-endpoints)
     - [Running the Code](#running-the-code)
@@ -80,12 +80,12 @@ Unzip `newrelic-java.zip` by configuring `maven-dependency-plugin` in your `pom.
 </plugin>
 ```
 
-#### 2. Setting New Relic configuration
+#### 3. Setting New Relic configuration
 
 - Place `newrelic.yml` in the same folder as newrelic.jar in our case in `target/newrelic`, if you want to change it, you can specify otherwise in the JVM arg Dnewrelic.config.file.
 - Configure the `newrelic.yml` file (or JVM system properties) with your `license_key` and `app_name` and your other parameters.
 
-#### 3. Adding the Java agent to JVM
+#### 4. Adding the Java agent to JVM
 
 You have to pass `-javaagent:/path/to/newrelic.jar` to the JVM running your application server. In our case we used the `spring-boot-maven-plugin` plugin in `pom.xml` to pass it:
 
